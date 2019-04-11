@@ -1,0 +1,32 @@
+kind: Deployment
+apiVersion: apps/v1
+
+metadata:
+  name: web-server
+  labels:
+    app: web-server
+
+spec:
+  replicas: 1
+  revisionHistoryLimit: 2
+
+  strategy:
+    rollingUpdate:
+      maxUnavailable: 1
+
+  selector:
+    matchLabels:
+      app: web-server
+
+  template:
+    metadata:
+      labels:
+        app: web-server
+
+    spec:
+      containers:
+        - name: app
+          image: nginx
+          ports:
+            - name: http
+              containerPort: 80
